@@ -8,6 +8,7 @@ authors = ["Firebase Studio <studio@example.com>"]
 python = "^3.11"
 fastapi = "^0.111.0"
 uvicorn = {extras = ["standard"], version = "^0.29.0"}
+prometheus-fastapi-instrumentator = "^6.2.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.0"
