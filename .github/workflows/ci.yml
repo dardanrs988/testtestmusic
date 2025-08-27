@@ -29,24 +29,24 @@ jobs:
 
       - name: Install Frontend Dependencies
         run: npm install
-        working-directory: ./frontend
+        working-directory: ./cloud-native-superapp/frontend
 
       - name: Lint Frontend
         run: npm run lint
-        working-directory: ./frontend
+        working-directory: ./cloud-native-superapp/frontend
 
       # Add frontend tests when available
       # - name: Test Frontend
       #   run: npm run test
-      #   working-directory: ./frontend
+      #   working-directory: ./cloud-native-superapp/frontend
 
       - name: Install Backend Dependencies
         run: poetry install
-        working-directory: ./backend
+        working-directory: ./cloud-native-superapp/backend
 
       - name: Test Backend
         run: poetry run pytest
-        working-directory: ./backend
+        working-directory: ./cloud-native-superapp/backend
 
   build-images:
     name: Build Docker Images
@@ -72,8 +72,8 @@ jobs:
       - name: Build and push frontend image
         uses: docker/build-push-action@v5
         with:
-          context: ./frontend
-          file: ./frontend/Dockerfile
+          context: ./cloud-native-superapp/frontend
+          file: ./cloud-native-superapp/frontend/Dockerfile
           push: true
           tags: ghcr.io/${{ github.repository }}/frontend:pr-${{ github.event.number }}
           cache-from: type=gha
@@ -82,8 +82,8 @@ jobs:
       - name: Build and push backend image
         uses: docker/build-push-action@v5
         with:
-          context: ./backend
-          file: ./backend/Dockerfile
+          context: ./cloud-native-superapp/backend
+          file: ./cloud-native-superapp/backend/Dockerfile
           push: true
           tags: ghcr.io/${{ github.repository }}/backend:pr-${{ github.event.number }}
           cache-from: type=gha
