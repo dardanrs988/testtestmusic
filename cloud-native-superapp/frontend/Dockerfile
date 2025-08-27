@@ -1,48 +1,46 @@
-# Dockerfile for the Next.js frontend
 
-# 1. Builder Stage: Install dependencies and build the application
+# 1. Builder Stage: Build the Next.js application
 FROM node:20-alpine AS builder
 
-# Set working directory
+# Set the working directory in the builder stage
 WORKDIR /app
 
-# Copy package files and install dependencies
-# This leverages Docker layer caching
-COPY package.json ./
+# Copy package.json and lock file from the root
+COPY package*.json ./
+
+# Install all dependencies
 RUN npm install
 
-# Copy the rest of the source code
+# Copy the entire project context
+# This gives the builder access to all files needed for the build
 COPY . .
 
 # Build the Next.js application
-# The output will be in cloud-native-superapp/frontend/.next
-RUN npm run build
+# This will use the config and source code from ./cloud-native-superapp/frontend
+RUN npm run build --workspace=frontend
 
 # 2. Runner Stage: Create the final, lean production image
 FROM node:20-alpine AS runner
+
 WORKDIR /app
 
-# Set production environment
-ENV NODE_ENV=production
-
-# Next.js recommends creating a "nextjs" user for security.
-# However, to avoid permission issues with copying files, we will run as root first
-# and then switch to the nextjs user later if needed. For now, we'll simplify.
-
-# Copy the standalone Next.js server output
-COPY --from=builder /app/.next/standalone ./
-
-# Copy the public assets
-COPY --from=builder /app/public ./public
-
-# Copy the static assets
-COPY --from=builder /app/.next/static ./.next/static
-
-# Expose the port the app will run on
-EXPOSE 9002
-
-# Set the port environment variable
+# Set production environment variable
+ENV NODE_ENV production
+ENV NEXT_TELEMETRY_DISABLED 1
+ENV HOSTNAME 0.0.0.0
 ENV PORT 9002
 
-# Start the Node.js server
-CMD ["node", "server.js"]
+# Copy the minimal standalone server output from the builder stage
+COPY --from=builder /app/cloud-native-superapp/frontend/.next/standalone ./
+
+# Copy the public assets from the correct location
+COPY --from=builder /app/cloud-native-superapp/frontend/public ./cloud-native-superapp/frontend/public
+
+# Copy the static assets from the correct location
+COPY --from=builder /app/cloud-native-superapp/frontend/.next/static ./cloud-native-superapp/frontend/.next/static
+
+
+EXPOSE 9002
+
+# Start the application
+CMD ["node", "cloud-native-superapp/frontend/server.js"]
