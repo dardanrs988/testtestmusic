@@ -30,3 +30,12 @@ This document outlines the architecture of the Cloud-Native SuperApp.
 5.  **CI/CD**:
     - GitHub Actions are used for automated builds, tests, and deployments.
     - A GitOps workflow with Argo CD is planned for managing Kubernetes deployments.
+
+## Backup and Recovery
+
+Data persistence is handled by a managed database service on Azure (e.g., Azure Database for PostgreSQL or Cosmos DB). Our backup and recovery strategy relies on the native, automated backup capabilities of the chosen Azure service. This includes:
+- **Automated Backups**: Regular, automated backups configured and managed by Azure.
+- **Point-in-Time Restore (PITR)**: The ability to restore the database to any point in time within a defined retention period.
+- **Geo-Redundant Storage (for production)**: Backup data is stored in a geographically separate region to protect against regional disasters.
+
+This approach delegates the operational complexity of managing backups to the cloud provider, ensuring a high level of reliability and durability. See [ADR-0002](./decisions/0002-use-managed-database-backups.md) for more details.
