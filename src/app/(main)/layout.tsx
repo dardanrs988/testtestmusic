@@ -9,7 +9,16 @@ import {
 } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MainNav } from "./_components/main-nav";
-import { Wrench } from "lucide-react";
+import { Wrench, Settings, LogOut, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -22,7 +31,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
              </div>
             <div className="flex flex-col">
               <span className="font-semibold text-lg tracking-tight text-foreground">
-                App Starter
+                Cloud-Native App
               </span>
             </div>
           </div>
@@ -31,16 +40,34 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <MainNav />
         </SidebarContent>
          <SidebarFooter>
-            <div className="flex items-center gap-3">
-            <Avatar className="h-8 w-8">
-                <AvatarImage src="https://picsum.photos/100" alt="User Avatar" data-ai-hint="user avatar" />
-                <AvatarFallback>DV</AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col text-sm">
-                <span className="font-medium text-foreground">Dev User</span>
-                <span className="text-muted-foreground">dev@example.com</span>
-            </div>
-            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="w-full justify-start gap-3 px-3 h-12">
+                   <Avatar className="h-8 w-8">
+                      <AvatarImage src="https://picsum.photos/100" alt="User Avatar" data-ai-hint="user avatar" />
+                      <AvatarFallback>DV</AvatarFallback>
+                  </Avatar>
+                  <div className="flex flex-col text-sm items-start">
+                      <span className="font-medium text-foreground">Dev User</span>
+                      <span className="text-muted-foreground">dev@example.com</span>
+                  </div>
+                  <ChevronRight className="h-4 w-4 ml-auto" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent side="right" align="start">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>Settings</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Log out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
         </SidebarFooter>
       </Sidebar>
       <SidebarInset>
@@ -51,6 +78,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <main className="flex-1 p-4 md:p-8">
             {children}
         </main>
+         <footer className="border-t py-4 px-6 text-center text-muted-foreground text-sm">
+          Powered by a Cloud-Native Architecture
+        </footer>
       </SidebarInset>
     </SidebarProvider>
   );

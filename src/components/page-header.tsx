@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 interface PageHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
   description?: string;
+  children?: React.ReactNode;
 }
 
 export function PageHeader({

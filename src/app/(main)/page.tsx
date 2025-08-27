@@ -1,28 +1,47 @@
 import { PageHeader } from "@/components/page-header";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Wrench } from "lucide-react";
 
-export default function DashboardPage() {
+export default function HomePage() {
   return (
     <>
       <PageHeader
-        title="Welcome, Developer"
-        description="This is your new application starter."
+        title="Welcome to the SuperApp"
+        description="This is the starting point for your cloud-native application."
       />
       <div className="grid gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Getting Started</CardTitle>
+            <CardTitle>Project Structure</CardTitle>
+            <CardDescription>
+              This application is built using a monorepo structure.
+            </CardDescription>
           </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground">
-              You can start editing this page by modifying{" "}
-              <code className="bg-muted px-1 py-0.5 rounded-sm font-code text-sm">
-                src/app/(main)/page.tsx
-              </code>.
-            </p>
-             <p className="text-muted-foreground mt-4">
-              Your project is now set up with a <code className="bg-muted px-1 py-0.5 rounded-sm font-code text-sm">Dockerfile</code> and a <code className="bg-muted px-1 py-0.5 rounded-sm font-code text-sm">kubernetes.yaml</code> file to help you deploy your application.
-            </p>
+          <CardContent className="grid gap-4">
+            <div className="flex items-start gap-4">
+              <div className="font-mono text-sm bg-muted px-2 py-1 rounded-md">frontend/</div>
+              <p className="text-muted-foreground">
+                The Next.js application you are currently viewing.
+              </p>
+            </div>
+              <div className="flex items-start gap-4">
+              <div className="font-mono text-sm bg-muted px-2 py-1 rounded-md">backend/</div>
+              <p className="text-muted-foreground">
+                A FastAPI service providing the API for this application.
+              </p>
+            </div>
+              <div className="flex items-start gap-4">
+              <div className="font-mono text-sm bg-muted px-2 py-1 rounded-md">infra/</div>
+              <p className="text-muted-foreground">
+                Terraform code for managing cloud infrastructure.
+              </p>
+            </div>
+              <div className="flex items-start gap-4">
+              <div className="font-mono text-sm bg-muted px-2 py-1 rounded-md">k8s/</div>
+              <p className="text-muted-foreground">
+                Kubernetes manifests (Helm & Kustomize) for deployment.
+              </p>
+            </div>
           </CardContent>
         </Card>
       </div>

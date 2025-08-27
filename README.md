@@ -27,18 +27,10 @@ The project is structured as a monorepo containing:
 
 1.  **Install Frontend Dependencies:**
     ```bash
-    npm install --workspace=frontend
+    npm install
     ```
 
-2.  **Start the Backend:**
-    ```bash
-    cd backend
-    poetry install
-    poetry run uvicorn src.main:app --reload
-    ```
-    The backend will be available at `http://127.0.0.1:8000`.
-
-3.  **Start the Frontend:**
+2.  **Start the Frontend:**
     ```bash
     npm run dev
     ```

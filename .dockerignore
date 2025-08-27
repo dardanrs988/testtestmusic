@@ -1,7 +1,9 @@
-node_modules
-.next
-.git
 Dockerfile
 .dockerignore
-kubernetes.yaml
+node_modules
+npm-debug.log
 README.md
+.next
+.git
+.gitignore
+cloud-native-superapp/
