@@ -67,9 +67,7 @@ jobs:
       - name: Update Kustomization with new image tags
         run: |
           sed -i "s|tag: \"dev\"|tag: \"${{ github.sha }}\"|g" k8s/overlays/dev/values/frontend.yaml
-          sed -i "s|repository: your-acr-name.azurecr.io/frontend|repository: ghcr.io/${{ github.repository }}/frontend|g" k8s/apps/frontend/values.yaml
           sed -i "s|tag: \"dev\"|tag: \"${{ github.sha }}\"|g" k8s/overlays/dev/values/backend.yaml
-          sed -i "s|repository: your-acr-name.azurecr.io/backend|repository: ghcr.io/${{ github.repository }}/backend|g" k8s/apps/backend/values.yaml
 
       - name: Deploy to Kubernetes
         run: kubectl apply -k k8s/overlays/dev

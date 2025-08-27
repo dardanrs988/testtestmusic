@@ -2,7 +2,7 @@
 replicaCount: 1
 
 image:
-  repository: your-acr-name.azurecr.io/frontend # Replace with your ACR path
+  repository: ghcr.io/dardanrs988/testtestmusic/frontend
   pullPolicy: IfNotPresent
   tag: "latest"
 
