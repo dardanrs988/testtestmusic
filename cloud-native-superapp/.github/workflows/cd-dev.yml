@@ -66,8 +66,8 @@ jobs:
 
       - name: Update Kustomization with new image tags
         run: |
-          sed -i "s|tag: \"dev\"|tag: \"${{ github.sha }}\"|g" k8s/overlays/dev/values/frontend.yaml
-          sed -i "s|tag: \"dev\"|tag: \"${{ github.sha }}\"|g" k8s/overlays/dev/values/backend.yaml
+          sed -i "s|tag: \"latest\"|tag: \"${{ github.sha }}\"|g" k8s/overlays/dev/values/frontend.yaml
+          sed -i "s|tag: \"latest\"|tag: \"${{ github.sha }}\"|g" k8s/overlays/dev/values/backend.yaml
 
       - name: Deploy to Kubernetes
         run: kubectl apply -k k8s/overlays/dev
