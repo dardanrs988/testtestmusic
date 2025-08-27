@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { PageHeader } from "@/components/page-header";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { MotionDiv } from "@/components/motion-div";
 
 const playlists = [
@@ -16,7 +16,7 @@ const recentlyPlayed = [
   { name: 'All Eyez on Me', artist: '2Pac', imageUrl: 'https://picsum.photos/seed/alleyez/400/400', hint: 'tupac portrait' },
   { name: 'The Voice', artist: 'Lil Durk', imageUrl: 'https://picsum.photos/seed/thevoice/400/400', hint: 'chicago artist' },
   { name: 'good kid, m.A.A.d city', artist: 'Kendrick Lamar', imageUrl: 'https://picsum.photos/seed/gkmc/400/400', hint: 'compton story' },
-  { name: 'Ready to Die', artist: 'The Notorious B.I.G.', imageUrl: 'https://picsum.photos/seed/readvtodie/400/400', hint: 'brooklyn rap' },
+  { name: 'Ready to Die', artist: 'The Notorious B.I.G.', imageUrl: 'https://picsum.photos/seed/readytodie/400/400', hint: 'brooklyn rap' },
   { name: 'Get Rich or Die Tryin\'', artist: '50 Cent', imageUrl: 'https://picsum.photos/seed/getrich/400/400', hint: 'ny classic' },
 ]
 

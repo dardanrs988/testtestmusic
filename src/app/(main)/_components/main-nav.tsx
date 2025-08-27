@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Library, ListMusic, Mic2, Search } from "lucide-react";
+import { Home, Library, ListMusic, Mic2, Music, Search } from "lucide-react";
 
 import {
   SidebarMenu,
@@ -32,10 +32,10 @@ export function MainNav() {
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
-              isActive={isActive("/search")}
+              isActive={pathname.startsWith("/search")}
               tooltip="Search"
             >
-              <Link href="#">
+              <Link href="/search">
                 <Search />
                 <span>Search</span>
               </Link>
@@ -44,10 +44,10 @@ export function MainNav() {
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
-              isActive={isActive("/library")}
+              isActive={pathname.startsWith("/library")}
               tooltip="Your Library"
             >
-              <Link href="#">
+              <Link href="/library">
                 <Library />
                 <span>Your Library</span>
               </Link>
@@ -59,18 +59,26 @@ export function MainNav() {
         <SidebarGroupLabel>Playlists</SidebarGroupLabel>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild tooltip="90's Hip-Hop">
-              <Link href="#">
+            <SidebarMenuButton asChild tooltip="90's Hip-Hop" isActive={pathname === "/playlists/1"}>
+              <Link href="/playlists/1">
                 <ListMusic />
                 <span>90's Hip-Hop</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
-           <SidebarMenuItem>
-            <SidebarMenuButton asChild tooltip="Modern Rap">
-              <Link href="#">
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild tooltip="Modern Rap" isActive={pathname === "/playlists/2"}>
+              <Link href="/playlists/2">
                 <Mic2 />
                 <span>Modern Rap</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+           <SidebarMenuItem>
+            <SidebarMenuButton asChild tooltip="Chill Vibes" isActive={pathname === "/playlists/3"}>
+              <Link href="/playlists/3">
+                <Music />
+                <span>Chill Vibes</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

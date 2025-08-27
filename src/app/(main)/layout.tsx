@@ -19,6 +19,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { MusicPlayer } from "./_components/music-player";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -71,16 +72,18 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </SidebarFooter>
       </Sidebar>
       <SidebarInset>
-        <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background/80 backdrop-blur-sm px-4 lg:h-[60px] lg:px-6">
-            <SidebarTrigger className="md:hidden" />
-            <div className="flex-1" />
-        </header>
-        <main className="flex-1 p-4 md:p-8">
-            {children}
-        </main>
-         <footer className="border-t py-4 px-6 text-center text-muted-foreground text-sm">
-          Experience Music Like Never Before with Aura
-        </footer>
+         <div className="flex flex-col h-full">
+            <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background/80 backdrop-blur-sm px-4 shrink-0 lg:h-[60px] lg:px-6">
+                <SidebarTrigger className="md:hidden" />
+                <div className="flex-1" />
+            </header>
+            <main className="flex-1 overflow-y-auto p-4 md:p-8">
+                {children}
+            </main>
+            <footer className="sticky bottom-0 z-10 border-t bg-background/95 backdrop-blur-sm">
+              <MusicPlayer />
+            </footer>
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );
