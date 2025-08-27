@@ -13,11 +13,11 @@ const playlists = [
 ]
 
 const recentlyPlayed = [
-  { name: 'All Eyez on Me', artist: '2Pac', imageUrl: 'https://picsum.photos/400/400?random=14', hint: 'tupac album' },
-  { name: 'The Voice', artist: 'Lil Durk', imageUrl: 'https://picsum.photos/400/400?random=15', hint: 'chicago skyline' },
-  { name: 'good kid, m.A.A.d city', artist: 'Kendrick Lamar', imageUrl: 'https://picsum.photos/400/400?random=16', hint: 'compton street' },
-  { name: 'Ready to Die', artist: 'The Notorious B.I.G.', imageUrl: 'https://picsum.photos/400/400?random=17', hint: 'new-york city' },
-  { name: 'Get Rich or Die Tryin\'', artist: '50 Cent', imageUrl: 'https://picsum.photos/400/400?random=18', hint: 'rap classic' },
+  { name: 'All Eyez on Me', artist: '2Pac', imageUrl: 'https://picsum.photos/seed/alleyez/400/400', hint: 'tupac portrait' },
+  { name: 'The Voice', artist: 'Lil Durk', imageUrl: 'https://picsum.photos/seed/thevoice/400/400', hint: 'chicago artist' },
+  { name: 'good kid, m.A.A.d city', artist: 'Kendrick Lamar', imageUrl: 'https://picsum.photos/seed/gkmc/400/400', hint: 'compton story' },
+  { name: 'Ready to Die', artist: 'The Notorious B.I.G.', imageUrl: 'https://picsum.photos/seed/readvtodie/400/400', hint: 'brooklyn rap' },
+  { name: 'Get Rich or Die Tryin\'', artist: '50 Cent', imageUrl: 'https://picsum.photos/seed/getrich/400/400', hint: 'ny classic' },
 ]
 
 const variants = {
