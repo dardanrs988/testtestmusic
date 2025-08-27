@@ -1,4 +1,3 @@
-# Dockerfile for the Next.js frontend
 
 # 1. Builder Stage
 FROM node:20-alpine AS builder
@@ -7,11 +6,11 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Copy root package files and install dependencies
-# This leverages Docker cache for dependencies
-COPY package*.json ./
+# This is needed because the frontend depends on the root package.json
+COPY package.json package-lock.json* ./
 RUN npm install
 
-# Copy the rest of the frontend source code
+# Copy the frontend-specific source code
 COPY . .
 
 # Build the Next.js application
@@ -20,20 +19,17 @@ RUN npm run build
 # 2. Production Stage
 FROM node:20-alpine AS production
 
-# Set working directory
 WORKDIR /app
 
-# Set production environment
-ENV NODE_ENV=production
-
 # Copy built assets from the builder stage
-COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/next.config.ts ./next.config.ts
 
-# Expose the port the app runs on
+# Install production dependencies
+RUN npm install --production
+
 EXPOSE 9002
 
-# Start the application
 CMD ["npm", "start"]
