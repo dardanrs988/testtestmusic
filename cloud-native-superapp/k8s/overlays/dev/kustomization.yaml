@@ -4,7 +4,6 @@ kind: Kustomization
 # Inherit from the base
 resources:
 - ../../base
-- ../../platform
 
 # Add Helm charts for apps
 helmCharts:
