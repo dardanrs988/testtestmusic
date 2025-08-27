@@ -1,0 +1,4 @@
+# Dev-specific values for the backend chart
+replicaCount: 1
+image:
+  tag: "dev"

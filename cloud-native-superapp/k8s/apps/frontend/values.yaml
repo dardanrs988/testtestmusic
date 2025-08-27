@@ -1,0 +1,11 @@
+# Default values for frontend chart.
+replicaCount: 1
+
+image:
+  repository: your-acr-name.azurecr.io/frontend # Replace with your ACR path
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+service:
+  type: ClusterIP
+  port: 80

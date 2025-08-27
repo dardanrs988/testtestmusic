@@ -1,0 +1,21 @@
+name: CD - Deploy to Dev
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy to Development
+    runs-on: ubuntu-latest
+    environment: development
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      # Add steps to deploy to your dev environment (e.g., AKS)
+      # This would typically involve:
+      # 1. Logging into Azure
+      # 2. Getting AKS credentials
+      # 3. Building and pushing images to ACR
+      # 4. Using kubectl or helm to apply manifests from k8s/overlays/dev
