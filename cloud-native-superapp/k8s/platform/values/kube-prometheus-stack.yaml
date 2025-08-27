@@ -1,0 +1,53 @@
+# Values for the kube-prometheus-stack chart
+# For a full list of options, see:
+# https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/values.yaml
+
+# We are disabling some components that are not needed for this simple setup to save resources.
+alertmanager:
+  enabled: false
+
+prometheus-node-exporter:
+  enabled: false
+
+prometheus:
+  prometheusSpec:
+    # Keep a smaller amount of data to save disk space
+    retention: 2d
+    resources:
+      requests:
+        cpu: 200m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+
+grafana:
+  # This sets the default admin password for Grafana.
+  # IMPORTANT: For a real production environment, use a secret managed by something like Azure Key Vault.
+  adminPassword: "supersecretpassword"
+
+  # Persist the Grafana dashboard configurations
+  persistence:
+    enabled: true
+    type: pvc
+    size: 1Gi
+    storageClassName: "default" # Change this if you have a different storage class
+
+  # Expose Grafana via an Ingress on a subdomain
+  ingress:
+    enabled: true
+    # For a real setup, you would change this host and configure TLS
+    hosts:
+      - grafana.your-domain.com
+    path: /
+    # annotations:
+    #   cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  
+  # Set default resource requests and limits
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi

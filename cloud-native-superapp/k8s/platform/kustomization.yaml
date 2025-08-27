@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- namespaces/monitoring.yaml
+
+helmCharts:
+- name: kube-prometheus-stack
+  releaseName: prometheus
+  version: "57.0.2" # Use a specific, stable version
+  repo: https://prometheus-community.github.io/helm-charts
+  namespace: monitoring
+  valuesFile: values/kube-prometheus-stack.yaml
