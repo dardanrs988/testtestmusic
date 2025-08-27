@@ -1,26 +1,36 @@
-# Use an official Python runtime as a parent image
-FROM python:3.11-slim
+# Dockerfile for the FastAPI backend
 
-# Set the working directory in the container
-WORKDIR /app
+# 1. Builder Stage for dependencies
+FROM python:3.11-slim as builder
 
-# Install system dependencies required for Poetry
-RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
+WORKDIR /usr/src/app
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
 # Install Poetry
-RUN curl -sSL https://install.python-poetry.org | python3 -
+RUN pip install poetry
 
-# Add Poetry to PATH
-ENV PATH="/root/.local/bin:$PATH"
-
-# Copy only the dependency definition files to leverage Docker cache
+# Copy only the files needed for dependency installation
 COPY pyproject.toml poetry.lock ./
 
-# Install project dependencies
-RUN poetry config virtualenvs.create false && poetry install --no-root --no-dev
+# Install dependencies into a virtual environment
+RUN poetry config virtualenvs.create false && \
+    poetry install --no-dev --no-root
 
-# Copy the rest of the application code
-COPY ./src /app/src
+# 2. Production Stage
+FROM python:3.11-slim
 
-# Command to run the application
+WORKDIR /usr/src/app
+
+# Copy the virtual environment from the builder stage
+COPY --from=builder /usr/src/app /usr/src/app
+
+# Copy the application source code
+COPY ./src ./src
+
+# Expose the port the app runs on
+EXPOSE 8000
+
+# Run the application
 CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
