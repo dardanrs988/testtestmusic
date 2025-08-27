@@ -1,38 +1,41 @@
-# Dockerfile for the frontend Next.js application
-
-# 1. Builder Stage
+# Stage 1: Builder
 FROM node:20-alpine AS builder
+
+# Set working directory for the entire monorepo
 WORKDIR /app
 
-# Copy root package files from the context's root
-COPY package*.json ./
+# Copy root package files first
+COPY package.json package-lock.json* ./
 
-# Install dependencies
+# Install all dependencies for the monorepo
 RUN npm install
 
-# Copy the entire frontend directory into the builder
-COPY ./cloud-native-superapp/frontend .
+# Copy the rest of the source code
+# This includes the frontend, backend, etc.
+COPY . .
 
 # Build the Next.js application
+# The --workspace flag is not needed if the build script is correctly defined in the root package.json
+# For clarity, we can run the build command from the root.
 RUN npm run build
 
-# 2. Production Stage
-FROM node:20-alpine AS runner
+# Stage 2: Production
+FROM node:20-alpine AS production
+
+# Set working directory for the Next.js app
 WORKDIR /app
 
+# Set production environment
 ENV NODE_ENV=production
 
-# Copy built assets from builder stage
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
-
-# Copy next.config.ts from its correct location in the builder stage
-COPY --from=builder /app/next.config.ts ./next.config.ts
+# We need to create a standalone server, so we copy only the necessary files
+# The build output is in .next/standalone
+COPY --from=builder /app/cloud-native-superapp/frontend/.next/standalone ./
+COPY --from=builder /app/cloud-native-superapp/frontend/.next/static ./cloud-native-superapp/frontend/.next/static
+COPY --from=builder /app/cloud-native-superapp/frontend/public ./cloud-native-superapp/frontend/public
 
 # Expose the port the app runs on
 EXPOSE 9002
 
-# Start the app
-CMD ["npm", "start"]
+# The command to start the app is now the standalone server
+CMD ["node", "cloud-native-superapp/frontend/server.js"]
