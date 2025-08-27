@@ -28,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={cn("dark", inter.variable, sourceCodePro.variable)} suppressHydrationWarning>
-      <body className={cn("font-body antialiased", process.env.NODE_ENV === 'development' ? 'debug-screens' : undefined)}>
+      <body className={cn("font-body antialiased")}>
         {children}
         <Toaster />
       </body>

@@ -25,7 +25,13 @@ The project is structured as a monorepo containing:
 
 ### Local Development
 
-1.  **Start the Backend:**
+1.  **Install Frontend Dependencies:**
+    ```bash
+    npm install --workspace=frontend
+    ```
+
+2.  **Start the Backend:**
+    In a new terminal, run:
     ```bash
     cd backend
     poetry install
@@ -33,11 +39,10 @@ The project is structured as a monorepo containing:
     ```
     The backend will be available at `http://127.0.0.1:8000`.
 
-2.  **Start the Frontend:**
+3.  **Start the Frontend:**
+    In another terminal, run:
     ```bash
-    cd frontend
-    npm install
-    npm run dev
+    npm run dev:frontend
     ```
     The frontend will be available at `http://localhost:9002`.
 
