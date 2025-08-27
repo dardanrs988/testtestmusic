@@ -6,18 +6,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MotionDiv } from "@/components/motion-div";
 
 const playlists = [
-  { name: 'Lo-fi Beats', description: 'Chill beats to relax, study, and focus.', imageUrl: 'https://picsum.photos/400/400?random=1', hint: 'lofi study' },
-  { name: 'Ambient Electronic', description: 'Deep, atmospheric soundscapes.', imageUrl: 'https://picsum.photos/400/400?random=2', hint: 'ambient space' },
-  { name: 'Indie Rock Road Trip', description: 'Upbeat tracks for the open road.', imageUrl: 'https://picsum.photos/400/400?random=3', hint: 'indie roadtrip' },
-  { name: 'Jazz in the Background', description: 'Smooth jazz for a sophisticated vibe.', imageUrl: 'https://picsum.photos/400/400?random=4', hint: 'jazz cafe' },
+  { name: '90s Hip-Hop Classics', description: 'Legendary tracks from the golden era.', imageUrl: 'https://picsum.photos/400/400?random=10', hint: 'hiphop graffiti' },
+  { name: 'Drill Essentials', description: 'The hardest tracks from the drill scene.', imageUrl: 'https://picsum.photos/400/400?random=11', hint: 'drill music' },
+  { name: 'West Coast Hits', description: 'Iconic anthems from the Westside.', imageUrl: 'https://picsum.photos/400/400?random=12', hint: 'california coast' },
+  { name: 'Rap Caviar', description: 'The latest and greatest in modern rap.', imageUrl: 'https://picsum.photos/400/400?random=13', hint: 'luxury lifestyle' },
 ]
 
 const recentlyPlayed = [
-  { name: 'Midnight City', artist: 'M83', imageUrl: 'https://picsum.photos/400/400?random=5', hint: 'synthwave album' },
-  { name: 'Reflektor', artist: 'Arcade Fire', imageUrl: 'https://picsum.photos/400/400?random=6', hint: 'indie album' },
-  { name: 'Discovery', artist: 'Daft Punk', imageUrl: 'https://picsum.photos/400/400?random=7', hint: 'electronic album' },
-  { name: 'Currents', artist: 'Tame Impala', imageUrl: 'https://picsum.photos/400/400?random=8', hint: 'psychedelic rock' },
-  { name: 'Bon Iver', artist: 'Bon Iver', imageUrl: 'https://picsum.photos/400/400?random=9', hint: 'folk album' },
+  { name: 'All Eyez on Me', artist: '2Pac', imageUrl: 'https://picsum.photos/400/400?random=14', hint: 'tupac album' },
+  { name: 'The Voice', artist: 'Lil Durk', imageUrl: 'https://picsum.photos/400/400?random=15', hint: 'chicago skyline' },
+  { name: 'good kid, m.A.A.d city', artist: 'Kendrick Lamar', imageUrl: 'https://picsum.photos/400/400?random=16', hint: 'compton street' },
+  { name: 'Ready to Die', artist: 'The Notorious B.I.G.', imageUrl: 'https://picsum.photos/400/400?random=17', hint: 'new-york city' },
+  { name: 'Get Rich or Die Tryin\'', artist: '50 Cent', imageUrl: 'https://picsum.photos/400/400?random=18', hint: 'rap classic' },
 ]
 
 const variants = {
@@ -38,7 +38,7 @@ export default function HomePage() {
     <>
       <PageHeader
         title="Welcome Back"
-        description="Here's what's new in your world of music."
+        description="Your daily dose of hip-hop."
       />
       <div className="space-y-12">
         <section>

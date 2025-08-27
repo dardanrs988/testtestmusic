@@ -59,18 +59,18 @@ export function MainNav() {
         <SidebarGroupLabel>Playlists</SidebarGroupLabel>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild tooltip="Heavy Metal">
+            <SidebarMenuButton asChild tooltip="90's Hip-Hop">
               <Link href="#">
                 <ListMusic />
-                <span>Heavy Metal</span>
+                <span>90's Hip-Hop</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
            <SidebarMenuItem>
-            <SidebarMenuButton asChild tooltip="Indie Focus">
+            <SidebarMenuButton asChild tooltip="Modern Rap">
               <Link href="#">
                 <Mic2 />
-                <span>Indie Focus</span>
+                <span>Modern Rap</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
