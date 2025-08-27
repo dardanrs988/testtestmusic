@@ -1,46 +1,37 @@
-
-# 1. Builder Stage: Build the Next.js application
+# 1. Builder Stage
 FROM node:20-alpine AS builder
-
-# Set the working directory in the builder stage
 WORKDIR /app
 
-# Copy package.json and lock file from the root
-COPY package*.json ./
+# Copy root package.json and lockfile
+COPY package.json ./
+COPY package-lock.json ./
 
-# Install all dependencies
+# Copy frontend-specific package.json
+COPY cloud-native-superapp/frontend/package.json ./cloud-native-superapp/frontend/
+
+# Install all dependencies from the workspace root
 RUN npm install
 
-# Copy the entire project context
-# This gives the builder access to all files needed for the build
+# Copy the rest of the source code
 COPY . .
 
-# Build the Next.js application
-# This will use the config and source code from ./cloud-native-superapp/frontend
-RUN npm run build --workspace=frontend
+# Run the build for the frontend workspace
+RUN npm run build -w frontend
 
-# 2. Runner Stage: Create the final, lean production image
+# 2. Runner Stage
 FROM node:20-alpine AS runner
-
 WORKDIR /app
 
-# Set production environment variable
-ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
-ENV HOSTNAME 0.0.0.0
-ENV PORT 9002
+# Set production environment
+ENV NODE_ENV=production
 
-# Copy the minimal standalone server output from the builder stage
+# Copy necessary files from the builder stage
 COPY --from=builder /app/cloud-native-superapp/frontend/.next/standalone ./
-
-# Copy the public assets from the correct location
+COPY --from=builder /app/cloud-native-superapp/frontend/.next/static ./cloud-native-superapp/frontend/.next/static
 COPY --from=builder /app/cloud-native-superapp/frontend/public ./cloud-native-superapp/frontend/public
 
-# Copy the static assets from the correct location
-COPY --from=builder /app/cloud-native-superapp/frontend/.next/static ./cloud-native-superapp/frontend/.next/static
-
-
+# Expose the port the app runs on
 EXPOSE 9002
 
-# Start the application
+# The command to start the app
 CMD ["node", "cloud-native-superapp/frontend/server.js"]
