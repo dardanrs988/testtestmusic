@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MainNav } from "./_components/main-nav";
-import { Wrench, Settings, LogOut, ChevronRight } from "lucide-react";
+import { Waves, Settings, LogOut, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -27,11 +27,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <SidebarHeader>
           <div className="flex items-center gap-3">
              <div className="p-2 rounded-lg bg-primary text-primary-foreground">
-                <Wrench className="h-6 w-6" />
+                <Waves className="h-6 w-6" />
              </div>
             <div className="flex flex-col">
-              <span className="font-semibold text-lg tracking-tight text-foreground">
-                Cloud-Native App
+              <span className="font-headline text-lg tracking-tight text-foreground">
+                Aura Music
               </span>
             </div>
           </div>
@@ -45,11 +45,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 <Button variant="ghost" className="w-full justify-start gap-3 px-3 h-12">
                    <Avatar className="h-8 w-8">
                       <AvatarImage src="https://picsum.photos/100" alt="User Avatar" data-ai-hint="user avatar" />
-                      <AvatarFallback>DV</AvatarFallback>
+                      <AvatarFallback>AM</AvatarFallback>
                   </Avatar>
                   <div className="flex flex-col text-sm items-start">
-                      <span className="font-medium text-foreground">Dev User</span>
-                      <span className="text-muted-foreground">dev@example.com</span>
+                      <span className="font-medium text-foreground">Aura User</span>
+                      <span className="text-muted-foreground">user@aura.com</span>
                   </div>
                   <ChevronRight className="h-4 w-4 ml-auto" />
                 </Button>
@@ -79,7 +79,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             {children}
         </main>
          <footer className="border-t py-4 px-6 text-center text-muted-foreground text-sm">
-          Powered by a Cloud-Native Architecture
+          Experience Music Like Never Before with Aura
         </footer>
       </SidebarInset>
     </SidebarProvider>

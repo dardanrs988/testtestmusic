@@ -2,7 +2,7 @@ import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
 import { cn } from '@/lib/utils';
-import { Inter, Source_Code_Pro } from 'next/font/google';
+import { Inter, Lexend } from 'next/font/google';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -10,15 +10,15 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
-const sourceCodePro = Source_Code_Pro({
+const lexend = Lexend({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-source-code-pro',
+  variable: '--font-lexend',
 });
 
 export const metadata: Metadata = {
-  title: 'Cloud-Native SuperApp',
-  description: 'A modern, scalable application.',
+  title: 'Aura Music',
+  description: 'Experience music like never before.',
 };
 
 export default function RootLayout({
@@ -27,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("dark", inter.variable, sourceCodePro.variable)} suppressHydrationWarning>
+    <html lang="en" className={cn("dark", inter.variable, lexend.variable)} suppressHydrationWarning>
       <body className={cn("font-body antialiased", process.env.NODE_ENV === 'development' ? 'debug-screens' : undefined)}>
         {children}
         <Toaster />
