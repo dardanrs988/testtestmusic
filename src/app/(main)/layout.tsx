@@ -22,7 +22,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
              </div>
             <div className="flex flex-col">
               <span className="font-semibold text-lg tracking-tight text-foreground">
-                DevOps Center
+                App Starter
               </span>
             </div>
           </div>

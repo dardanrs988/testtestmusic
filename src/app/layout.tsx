@@ -4,8 +4,8 @@ import { Toaster } from "@/components/ui/toaster"
 import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {
-  title: 'DevOps Command Center',
-  description: 'Your unified hub for cloud infrastructure management and automation.',
+  title: 'Next.js App Starter',
+  description: 'A starter project for Next.js applications.',
 };
 
 export default function RootLayout({
