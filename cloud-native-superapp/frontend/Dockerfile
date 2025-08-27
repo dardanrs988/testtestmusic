@@ -1,41 +1,48 @@
-# Stage 1: Builder
+# Dockerfile for the Next.js frontend
+
+# 1. Builder Stage: Install dependencies and build the application
 FROM node:20-alpine AS builder
 
-# Set working directory for the entire monorepo
+# Set working directory
 WORKDIR /app
 
-# Copy root package files first
-COPY package.json package-lock.json* ./
-
-# Install all dependencies for the monorepo
+# Copy package files and install dependencies
+# This leverages Docker layer caching
+COPY package.json ./
 RUN npm install
 
 # Copy the rest of the source code
-# This includes the frontend, backend, etc.
 COPY . .
 
 # Build the Next.js application
-# The --workspace flag is not needed if the build script is correctly defined in the root package.json
-# For clarity, we can run the build command from the root.
+# The output will be in cloud-native-superapp/frontend/.next
 RUN npm run build
 
-# Stage 2: Production
-FROM node:20-alpine AS production
-
-# Set working directory for the Next.js app
+# 2. Runner Stage: Create the final, lean production image
+FROM node:20-alpine AS runner
 WORKDIR /app
 
 # Set production environment
 ENV NODE_ENV=production
 
-# We need to create a standalone server, so we copy only the necessary files
-# The build output is in .next/standalone
-COPY --from=builder /app/cloud-native-superapp/frontend/.next/standalone ./
-COPY --from=builder /app/cloud-native-superapp/frontend/.next/static ./cloud-native-superapp/frontend/.next/static
-COPY --from=builder /app/cloud-native-superapp/frontend/public ./cloud-native-superapp/frontend/public
+# Next.js recommends creating a "nextjs" user for security.
+# However, to avoid permission issues with copying files, we will run as root first
+# and then switch to the nextjs user later if needed. For now, we'll simplify.
 
-# Expose the port the app runs on
+# Copy the standalone Next.js server output
+COPY --from=builder /app/.next/standalone ./
+
+# Copy the public assets
+COPY --from=builder /app/public ./public
+
+# Copy the static assets
+COPY --from=builder /app/.next/static ./.next/static
+
+# Expose the port the app will run on
 EXPOSE 9002
 
-# The command to start the app is now the standalone server
-CMD ["node", "cloud-native-superapp/frontend/server.js"]
+# Set the port environment variable
+ENV PORT 9002
+
+# Start the Node.js server
+CMD ["node", "server.js"]
