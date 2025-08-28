@@ -1,28 +1,38 @@
-# 1. Builder stage
-FROM node:20-slim AS builder
+# 1. Builder Stage: Build the Next.js application
+FROM node:20-alpine AS builder
 
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy all source code
+# Copy package.json and package-lock.json (or yarn.lock)
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application source code
 COPY . .
 
-# 2. Runner stage
-FROM node:20-slim AS runner
+# Build the Next.js application for production
+RUN npm run build
+
+# 2. Runner Stage: Create the final, lean production image
+FROM node:20-alpine AS runner
+
 WORKDIR /app
 
-# Set environment variables
+# Set environment variable for production
 ENV NODE_ENV=production
 
-# Copy built assets from builder
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/package.json ./package.json
-
-# Copy the Next.js server files
+# Copy the standalone Next.js server output from the builder stage
 COPY --from=builder /app/.next/standalone ./
+# Copy the public assets
+COPY --from=builder /app/public ./public
+# Copy the static assets
 COPY --from=builder /app/.next/static ./.next/static
 
 # Expose the port the app runs on
 EXPOSE 9002
 
-# Start the app
+# The command to start the Next.js server
 CMD ["node", "server.js"]
