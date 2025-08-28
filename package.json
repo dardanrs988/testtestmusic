@@ -6,7 +6,7 @@
     "cloud-native-superapp/frontend"
   ],
   "scripts": {
-    "dev": "npm run dev --workspace=frontend",
+    "dev": "npm run dev --workspace=frontend -- --port 9002 --hostname 0.0.0.0",
     "build": "npm run build --workspace=frontend",
     "start": "npm run start --workspace=frontend",
     "lint": "npm run lint --workspace=frontend",
