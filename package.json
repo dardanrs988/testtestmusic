@@ -2,15 +2,12 @@
   "name": "aura-music-monorepo",
   "version": "0.1.0",
   "private": true,
-  "workspaces": [
-    "cloud-native-superapp/frontend"
-  ],
   "scripts": {
-    "dev": "npm run dev --workspace=frontend -- --port 9002 --hostname 0.0.0.0",
-    "build": "npm run build --workspace=frontend",
-    "start": "npm run start --workspace=frontend",
-    "lint": "npm run lint --workspace=frontend",
-    "typecheck": "npm run typecheck --workspace=frontend"
+    "dev": "next dev --port 9002 --hostname 0.0.0.0",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@genkit-ai/googleai": "^1.14.1",
