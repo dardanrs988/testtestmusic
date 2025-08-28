@@ -1,38 +1,43 @@
-# ---- Base Image ----
-FROM node:20-alpine AS base
+# Dockerfile for the Next.js frontend
+
+# 1. Builder Stage
+FROM node:20-slim AS builder
+
+# Set the working directory
 WORKDIR /app
 
-# ---- Dependencies ----
-FROM base AS deps
 # Copy root package files
 COPY package.json package-lock.json* ./
-# Copy frontend-specific package file
-COPY cloud-native-superapp/frontend/package.json ./cloud-native-superapp/frontend/
-# Install dependencies
-RUN npm install --omit=dev
 
-# ---- Builder ----
-FROM base AS builder
-WORKDIR /app
-# Copy dependencies from the deps stage
-COPY --from=deps /app/node_modules ./node_modules
-# Copy all source code
+# Install all dependencies
+RUN npm install --include=dev
+
+# Copy the rest of the source code
 COPY . .
-# Run the build
-RUN npm run build --workspace=frontend
 
-# ---- Runner ----
-FROM base AS runner
+# Build the Next.js application
+RUN npm run build
+
+
+# 2. Runner Stage
+FROM node:20-slim AS runner
 WORKDIR /app
 
+# Set environment variables
 ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED 1
 
 # Copy standalone output
-COPY --from=builder /app/cloud-native-superapp/frontend/.next/standalone ./
-# Copy static assets
-COPY --from=builder /app/cloud-native-superapp/frontend/.next/static ./cloud-native-superapp/frontend/.next/static
-# Copy public assets
-COPY --from=builder /app/cloud-native-superapp/frontend/public ./cloud-native-superapp/frontend/public
+COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# The standalone output copies the server.js file to the root.
-CMD ["node", "cloud-native-superapp/frontend/server.js"]
+
+# Set the correct user
+USER nextjs
+
+# Expose the port the app runs on
+EXPOSE 9002
+
+# Start the app
+CMD ["node", "server.js"]

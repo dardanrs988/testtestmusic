@@ -1,33 +1,33 @@
 # Dockerfile for the FastAPI backend
 
-# 1. Builder Stage for dependencies
-FROM python:3.11-slim as builder
+# 1. Builder Stage (for dependencies)
+FROM python:3.11-slim AS builder
 
-WORKDIR /usr/src/app
+# Set the working directory
+WORKDIR /app
 
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-
-# Install Poetry
+# Install poetry
 RUN pip install poetry
 
-# Copy only the files needed for dependency installation
-COPY pyproject.toml poetry.lock ./
+# Copy only the dependency definition files
+COPY ./cloud-native-superapp/backend/pyproject.toml ./cloud-native-superapp/backend/poetry.lock* ./cloud-native-superapp/backend/
 
 # Install dependencies into a virtual environment
-RUN poetry config virtualenvs.create false && \
-    poetry install --no-dev --no-root
+WORKDIR /app/cloud-native-superapp/backend
+RUN poetry config virtualenvs.create false && poetry install --no-root --no-dev
 
-# 2. Production Stage
-FROM python:3.11-slim
 
-WORKDIR /usr/src/app
+# 2. Runner Stage
+FROM python:3.11-slim AS runner
+
+# Set the working directory
+WORKDIR /app
 
 # Copy the virtual environment from the builder stage
-COPY --from=builder /usr/src/app /usr/src/app
+COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
 
 # Copy the application source code
-COPY ./src ./src
+COPY ./cloud-native-superapp/backend/src ./src
 
 # Expose the port the app runs on
 EXPOSE 8000
