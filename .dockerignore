@@ -1,9 +1,17 @@
-Dockerfile
-.dockerignore
+# Ignore node_modules
 node_modules
-npm-debug.log
-README.md
 .next
+
+# Ignore local environment files
+.env
+.env.local
+
+# Ignore version control
 .git
-.gitignore
-cloud-native-superapp/
+.github
+
+# Ignore root tsconfig to prevent build issues inside Docker
+tsconfig.json
+
+# Ignore the backend directory for the frontend build
+cloud-native-superapp/backend
