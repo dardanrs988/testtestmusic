@@ -1,29 +1,39 @@
-# 1. Base Stage
-FROM node:20-slim AS base
+# 1. Builder Stage: Build the Next.js application
+FROM node:20-slim AS builder
+
+# Set working directory
 WORKDIR /app
 
-# 2. Installer Stage
-FROM base AS installer
-COPY package.json package-lock.json* ./
+# Copy package manager files
+COPY package*.json ./
+
+# Install dependencies
 RUN npm install
 
-# 3. Builder Stage
-FROM base AS builder
-COPY --from=installer /app/node_modules ./node_modules
+# Copy the rest of the application source code
 COPY . .
+
+# Build the Next.js app
+# This command now has access to all files (tsconfig, next.config, etc.)
 RUN npm run build
 
-# 4. Runner Stage
-FROM base AS runner
+# 2. Runner Stage: Create the final, minimal production image
+FROM node:20-slim AS runner
+
 WORKDIR /app
 
-ENV NODE_ENV production
-
+# Copy the standalone output from the builder stage.
+# This includes the server.js file and the node_modules folder.
 COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/src/app/ ./src/app/
+
+# Copy the public assets (images, fonts, etc.)
 COPY --from=builder /app/public ./public
+
+# Copy the static build assets (.css, .js files)
 COPY --from=builder /app/.next/static ./.next/static
 
+# Expose the port the app will run on
 EXPOSE 9002
 
+# Set the command to start the production server
 CMD ["node", "server.js"]
