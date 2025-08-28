@@ -1,43 +1,44 @@
-# Dockerfile for the Next.js frontend
-
 # 1. Builder Stage
+# This stage installs dependencies and builds the Next.js application.
 FROM node:20-slim AS builder
 
-# Set the working directory in the container
+# Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json to leverage Docker cache
+# Copy the root package.json and lockfile
 COPY package.json package-lock.json* ./
 
-# Install dependencies
+# Install all dependencies
 RUN npm install
 
 # Copy the rest of the application source code
-# This copies the entire monorepo content into /app
 COPY . .
 
-# Build the Next.js application from the root
+# Build the Next.js application
+# The output will be in the .next directory
 RUN npm run build
 
-# 2. Runner Stage
-FROM node:20-slim AS runner
+# 2. Production Stage
+# This stage creates the final, lightweight image for production.
+FROM node:20-slim AS production
 
+# Set the working directory
 WORKDIR /app
 
-# Set environment variables
-ENV NODE_ENV=production
-
-# Copy the standalone Next.js server output from the builder stage
+# Copy the standalone output from the builder stage.
+# This includes the Next.js server and dependencies.
 COPY --from=builder /app/.next/standalone ./
 
-# Copy the public assets from the correct path
-COPY --from=builder /app/src/public ./src/public
+# Copy the public assets (images, fonts, etc.)
+# The correct path from the source is cloud-native-superapp/frontend/public
+COPY --from=builder /app/cloud-native-superapp/frontend/public ./cloud-native-superapp/frontend/public
 
-# Copy the static assets from the correct path
+# Copy the static build assets (CSS, JS chunks)
 COPY --from=builder /app/.next/static ./.next/static
 
-# Expose the port the app runs on
+# Expose the port the app will run on
 EXPOSE 9002
 
-# The command to run the app, pointing to the correct server file
+# The command to start the Next.js server
+# Use the custom server entry point from the standalone output
 CMD ["node", "server.js"]
